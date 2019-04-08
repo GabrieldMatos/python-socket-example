@@ -1,5 +1,6 @@
 import socket 
 import time
+from datetime import datetime
 
   
 def Main(): 
@@ -12,37 +13,46 @@ def Main():
 	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
 	# connect to server
 	s.connect((host,port))
-	# set the timeout in 'ms'
-	timeout = 1
-	
+	# set the timeout in 'micro seconds'
+	timeout = 100000
 	while True:
 		print('digite ping para saber o tempo de resposta do servidor:')
 		print('digite loss para saber porcentagem de perda de pacotes:') 
 		# message to choose the metric
 		message = input()
-		# ping metric in 'ms' (time to send and receive a message)
+		# ping metric in 'micro seconds' (time to send and receive a message)
 		if message == "ping":
-			msThen = float(round(time.time() * 1000))
-			for i in range (100):
+			totalMs = 0
+			cont = 0
+			for i in range (20):
+				msThen = float(datetime.now().strftime("%f"))
 				s.send(message.encode('ascii'))
 				data = s.recv(1024)
-				msNow = float(round(time.time() * 1000))
-			print((msNow - msThen)/100 , " ms")
+				msNow = float(datetime.now().strftime("%f"))
+				time.sleep(0.5)
+				difTime = msNow - msThen
+				if difTime > 0:
+					totalMs = totalMs + (difTime)
+					print(difTime, "micro seconds")
+					cont+=1
+			print("\n media",(totalMs)/cont , "micro seconds")
 
 		# loss metric in '%' (lost packages)
 		elif message == "loss":
 			errors = 0
-			for i in range (100):
-				msThen = float(round(time.time() * 1000))
+			print("\n calculando...")
+			for i in range (20):
+				msThen = float(datetime.now().strftime("%f"))
 				s.send(message.encode('ascii'))
 				data = s.recv(1024)
-				msNow = float(round(time.time() * 1000))
-				if (msNow - msThen) >= timeout:
+				msNow = float(datetime.now().strftime("%f"))
+				if (msNow - msThen) >= timeout or (msNow - msThen) <= 0:
 					errors+=1
-			print(errors, "% de pacotes perdidos")
+				time.sleep(0.5)
+			print("\n", errors, "% de pacotes perdidos")
   
         # ask the client whether he wants to continue 
-		ans = input('\ndeseja cntinuar(s/n) :') 
+		ans = input('\n deseja continuar(s/n) :') 
 		if ans == 's': 
 			continue
 		else: 
