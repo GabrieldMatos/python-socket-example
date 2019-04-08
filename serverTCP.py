@@ -32,7 +32,7 @@ def Main():
     host = "" 
   
     # reverse a port on your computer 
-    port = 12345
+    port = 5008
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     s.bind((host, port)) 
     print("socket binded to post", port) 
