@@ -20,7 +20,7 @@ def Main():
 		print('digite loss para saber porcentagem de perda de pacotes:') 
 		# message to choose the metric
 		message = input()
-		# ping metric in 'micro seconds' (time to send and receive a message)
+		# RTT metric in 'micro seconds' (time to send and receive a message)
 		if message == "RTT":
 			totalMs = 0
 			cont = 0
