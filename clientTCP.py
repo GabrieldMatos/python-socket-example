@@ -16,12 +16,12 @@ def Main():
 	# set the timeout in 'micro seconds'
 	timeout = 100000
 	while True:
-		print('digite ping para saber o tempo de resposta do servidor:')
+		print('digite RTT para saber o tempo de resposta do servidor:')
 		print('digite loss para saber porcentagem de perda de pacotes:') 
 		# message to choose the metric
 		message = input()
 		# ping metric in 'micro seconds' (time to send and receive a message)
-		if message == "ping":
+		if message == "RTT":
 			totalMs = 0
 			cont = 0
 			for i in range (20):
@@ -37,7 +37,7 @@ def Main():
 					cont+=1
 			print("\n media",(totalMs)/cont , "micro seconds")
 
-		# loss metric in '%' (lost packages)
+		# loss metric (lost packages)
 		elif message == "loss":
 			errors = 0
 			print("\n calculando...")
@@ -49,7 +49,7 @@ def Main():
 				if (msNow - msThen) >= timeout or (msNow - msThen) <= 0:
 					errors+=1
 				time.sleep(0.5)
-			print("\n", errors, "% de pacotes perdidos")
+			print("\n", errors, "pacote(s) perdido(s)")
   
         # ask the client whether he wants to continue 
 		ans = input('\n deseja continuar(s/n) :') 
