@@ -35,7 +35,7 @@ def Main():
     port = 5008
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     s.bind((host, port)) 
-    print("socket binded to post", port) 
+    print("socket binded to port", port) 
   
     # put the socket into listening mode 
     s.listen(5) 
